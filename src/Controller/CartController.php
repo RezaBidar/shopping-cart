@@ -8,11 +8,11 @@ class CartController extends AbstractController
 {
 
     /**
-     * @Route("/cart")
+     * @Route(path="/cart", name="shopping_cart")
      */
     public function index()
     {
-        return $this->json(json_decode('{"items": []}'));
+        return $this->render('cart.html.twig');
     }
 
 }
