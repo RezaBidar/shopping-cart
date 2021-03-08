@@ -13,6 +13,8 @@
         "symfony/yaml": "4.4.*"
     },
     "require-dev": {
+        "symfony/browser-kit": "4.4.*",
+        "symfony/css-selector": "4.4.*",
         "symfony/phpunit-bridge": "^5.2"
     },
     "config": {
