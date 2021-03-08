@@ -4,15 +4,14 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CartController extends AbstractController
+class HomeController extends AbstractController
 {
 
     /**
-     * @Route("/cart")
+     * @Route("/")
      */
-    public function index()
+    public function home()
     {
-        return $this->json(json_decode('{"items": []}'));
+        return $this->render('home.html.twig');
     }
-
 }
