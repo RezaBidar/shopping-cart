@@ -23,7 +23,7 @@ class ProductController extends BaseController
     }
 
     /**
-     * @Route("/products")
+     * @Route("/products", name="product_search")
      * @param Request $request
      * @return Response
      */

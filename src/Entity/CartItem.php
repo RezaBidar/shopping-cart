@@ -6,6 +6,12 @@ use App\Repository\CartItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(
+ *    name="cart_item",
+ *    uniqueConstraints={
+ *        @ORM\UniqueConstraint(name="cartitems_unique", columns={"user_id", "product_id"})
+ *    }
+ * )
  * @ORM\Entity(repositoryClass=CartItemRepository::class)
  */
 class CartItem
@@ -33,6 +39,11 @@ class CartItem
      * @ORM\Column(type="integer")
      */
     private $quantity;
+
+    public function __construct()
+    {
+        $this->quantity = 1;
+    }
 
     public function getId(): ?int
     {

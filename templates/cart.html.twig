@@ -3,5 +3,84 @@
 {% block title %}Geeks Shop{% endblock %}
 
 {% block body %}
-    <h1>Cart</h1>
+    <h1>Shopping Cart</h1>
+    <div>
+        <input class="form-control" id="search-input" autocomplete="off" placeholder="Enter Product Name" type="text">
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">thumbnail</th>
+                <th scope="col">title</th>
+                <th scope="col">price</th>
+                <th scope="col">quantity</th>
+                <th scope="col">remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td><img height="200" src="thumbnails/{{ item.product.thumbnail }}" alt="{{ item.product.name }}"/></td>
+                <td>{{  item.product.name }}</td>
+                <td>${{  item.product.price * item.quantity }}</td>
+                <td>{{ item.quantity }}</td>
+                <td><a src="#{{ item.id }}">click here</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>sum</th>
+                <th>
+                    {{ items | sum_prices }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function () {
+            $('#search-input').autoComplete({
+                resolver: 'custom',
+                minLength: 3,
+                noResultsText: 'No products found!!!',
+                formatResult: function (item) {
+                    return {
+                        value: item.id,
+                        text: item.name,
+                        html: [
+                            $('<img>').attr('src', 'thumbnails/' + item.thumbnail ).css("height", 100), ' ',
+                            item.name, ' $' , item.price
+                        ]
+                    };
+                },
+                events: {
+                    search: function (qry, callback) {
+                        $.ajax(
+                            '{{ path('product_search') }}',
+                            {
+                                data: { 'name': qry}
+                            }
+                        ).done(function (res) {
+                            callback(res)
+                        });
+                    }
+                }
+            });
+
+            $('#search-input').on('autocomplete.select', function (evt, item) {
+                $.ajax(
+                    '{{ path('add_to_cart') }}',
+                    {
+                        data: { 'id': item.id},
+                        method: 'POST'
+                    }
+                ).done(function (res) {
+                    location.reload();
+                });
+            });
+        });
+    </script>
 {% endblock %}

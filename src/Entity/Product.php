@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -17,26 +18,31 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("index")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("index")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("index")
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("index")
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Groups("index")
      */
     private $thumbnail;
 

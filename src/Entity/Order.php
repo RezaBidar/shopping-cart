@@ -32,7 +32,7 @@ class Order
     private $date;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="morder", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="order", orphanRemoval=true)
      */
     private $items;
 
