@@ -14,7 +14,6 @@
                 <th scope="col">title</th>
                 <th scope="col">price</th>
                 <th scope="col">quantity</th>
-                <th scope="col">remove</th>
             </tr>
         </thead>
         <tbody>
@@ -23,8 +22,11 @@
                 <td><img height="200" src="thumbnails/{{ item.product.thumbnail }}" alt="{{ item.product.name }}"/></td>
                 <td>{{  item.product.name }}</td>
                 <td>${{  item.product.price * item.quantity }}</td>
-                <td>{{ item.quantity }}</td>
-                <td><a src="#{{ item.id }}">click here</a></td>
+                <td>
+                    <button value="{{ item.product.id }}" type="button" class="btn-success increase-quantity"><i class="bi bi-plus"></i></button>
+                    {{ item.quantity }}
+                    <button value="{{ item.product.id }}" type="button" class="btn-warning decrease-quantity"><i class="bi bi-dash"></i></button>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
@@ -75,6 +77,30 @@
                     '{{ path('add_to_cart') }}',
                     {
                         data: { 'id': item.id},
+                        method: 'POST'
+                    }
+                ).done(function (res) {
+                    location.reload();
+                });
+            });
+
+            $('.increase-quantity').click(function () {
+                $.ajax(
+                    '{{ path('add_to_cart') }}',
+                    {
+                        data: { 'id': $(this).attr('value')},
+                        method: 'POST'
+                    }
+                ).done(function (res) {
+                    location.reload();
+                });
+            });
+
+            $('.decrease-quantity').click(function () {
+                $.ajax(
+                    '{{ path('remove_from_cart') }}',
+                    {
+                        data: { 'id': $(this).attr('value')},
                         method: 'POST'
                     }
                 ).done(function (res) {
