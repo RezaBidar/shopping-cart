@@ -21,7 +21,7 @@ class OrderItem
      * @ORM\ManyToOne(targetEntity=Order::class, inversedBy="items")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $morder;
+    private $order;
 
     /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="orderItems")
@@ -34,19 +34,24 @@ class OrderItem
      */
     private $quantity;
 
+    public function __construct()
+    {
+        $this->quantity = 1;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getMorder(): ?Order
+    public function getOrder(): ?Order
     {
-        return $this->morder;
+        return $this->order;
     }
 
-    public function setMorder(?Order $morder): self
+    public function setOrder(?Order $order): self
     {
-        $this->morder = $morder;
+        $this->order = $order;
 
         return $this;
     }
