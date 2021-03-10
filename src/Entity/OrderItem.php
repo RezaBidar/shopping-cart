@@ -34,6 +34,11 @@ class OrderItem
      */
     private $quantity;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $price;
+
     public function __construct()
     {
         $this->quantity = 1;
@@ -78,5 +83,21 @@ class OrderItem
         $this->quantity = $quantity;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price): void
+    {
+        $this->price = $price;
     }
 }

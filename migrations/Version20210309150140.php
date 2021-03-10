@@ -19,7 +19,7 @@ final class Version20210309150140 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
-        $this->addSql('ALTER TABLE `order` AUTO_INCREMENT = 100000');
+        $this->addSql('ALTER TABLE `order` AUTO_INCREMENT = 10000');
     }
 
     public function down(Schema $schema) : void

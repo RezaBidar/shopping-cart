@@ -1,0 +1,37 @@
+{%  extends 'base.html.twig' %}
+
+{% block title %}Geeks Shop{% endblock %}
+
+{% block body %}
+    <h1>Order view #{{ order.id }}</h1>
+    <p>Customer: {{ order.user.username }}</p>
+    <p>Date: {{ order.date| date('Y-m-d H:i:s') }}</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">thumbnail</th>
+            <th scope="col">title</th>
+            <th scope="col">price</th>
+            <th scope="col">quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in order.items %}
+            <tr>
+                <td><img height="200" src="/thumbnails/{{ item.product.thumbnail }}" alt="{{ item.product.name }}"/></td>
+                <td>{{  item.product.name }}</td>
+                <td>${{  item.price * item.quantity }}</td>
+                <td>{{ item.quantity }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>sum</th>
+            <th>
+                {{ order.items.getValues() | sum_order_prices }}
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+{% endblock %}

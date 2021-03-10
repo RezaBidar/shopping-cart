@@ -45,6 +45,14 @@ class CartController extends BaseController
         $currentUser = $this->getUser();
 
         $oldItem = $cartItemRepository->findOneBy(["user" => $currentUser, "product" => $product]);
+
+        $newQuantity = $product->getQuantity() - (($oldItem)? $oldItem->getQuantity() + 1 : 1);
+        if($newQuantity < 0)
+        {
+            $this->addFlash('notice', 'You have reached the maximum quantity available for ' . $product->getName());
+            return $this->toJsonResponse($product);
+        }
+
         if($oldItem)
         {
             $oldItem->setQuantity($oldItem->getQuantity() + 1);

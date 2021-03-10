@@ -9,7 +9,7 @@ class OrderControllerTest extends WebTestCase
     public function testSubmitOrder(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('POST', '/order/submit');
+        $client->request('POST', '/order/submit');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
