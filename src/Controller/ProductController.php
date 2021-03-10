@@ -2,24 +2,28 @@
 namespace App\Controller;
 
 use App\Repository\ProductRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class ProductController
  * @package App\Controller
- * @IsGranted("ROLE_USER")
  */
 class ProductController extends BaseController
 {
 
     private $productRepository;
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository, SerializerInterface $serializer)
     {
         $this->productRepository = $productRepository;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -32,7 +36,7 @@ class ProductController extends BaseController
         $name = $request->query->get('name');
         $products = ($name) ? $this->productRepository->findByName($name): [];
 
-        return $this->toJsonResponse($products);
+        return $this->toJsonResponse($products, $this->serializer);
     }
 
 }

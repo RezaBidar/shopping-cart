@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class CartController provides all shopping cart features
@@ -17,6 +18,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CartController extends BaseController
 {
+
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    public function __construct(SerializerInterface $serializer)
+    {
+
+        $this->serializer = $serializer;
+    }
 
     /**
      * @Route(path="/cart", name="shopping_cart", methods={"GET"})
@@ -53,7 +65,7 @@ class CartController extends BaseController
         if($newQuantity < 0)
         {
             $this->addFlash('warning', 'You have reached the maximum quantity available for ' . $product->getName());
-            return $this->toJsonResponse($product);
+            return $this->toJsonResponse($product, $this->serializer);
         }
 
         if($oldItem)
@@ -70,7 +82,7 @@ class CartController extends BaseController
         }
 
         $this->getDoctrine()->getManager()->flush();
-        return $this->toJsonResponse($product);
+        return $this->toJsonResponse($product, $this->serializer);
     }
 
     /**
@@ -111,7 +123,7 @@ class CartController extends BaseController
         }
 
         $this->getDoctrine()->getManager()->flush();
-        return $this->toJsonResponse($product);
+        return $this->toJsonResponse($product, $this->serializer);
     }
 
 }

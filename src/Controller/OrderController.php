@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * Class OrderController
@@ -19,6 +20,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class OrderController extends BaseController
 {
+
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
     /**
      * @Route("/order/submit", name="order_submit", methods={"POST"})
      * @param Request $request
@@ -53,7 +65,7 @@ class OrderController extends BaseController
         $this->getDoctrine()->getManager()->flush();
         $this->addFlash('success', 'Your order is ready just open the door ;)');
 
-        return $this->toJsonResponse($order);
+        return $this->toJsonResponse($order, $this->serializer);
     }
 
     /**
