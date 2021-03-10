@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\DataFixtures\ProductFixtures;
+use App\DataFixtures\UserFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class OrderControllerTest extends WebTestCase
@@ -17,8 +18,8 @@ class OrderControllerTest extends WebTestCase
     public function testSubmitEmptyOrder(): void
     {
         $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'john_doe',
-            'PHP_AUTH_PW'   => '1234',
+            'PHP_AUTH_USER' => UserFixtures::users[0]["username"],
+            'PHP_AUTH_PW'   => UserFixtures::users[0]["password"],
         ]);
         $client->request('POST', '/order/submit');
 
@@ -31,8 +32,8 @@ class OrderControllerTest extends WebTestCase
         $productData = ProductFixtures::Products[$productId];
 
         $client = static::createClient([], [
-            'PHP_AUTH_USER' => 'john_doe',
-            'PHP_AUTH_PW'   => '1234',
+            'PHP_AUTH_USER' => UserFixtures::users[0]["username"],
+            'PHP_AUTH_PW'   => UserFixtures::users[0]["password"],
         ]);
 
         $client->request('POST', '/cart/push', ['id' => $productId]);
