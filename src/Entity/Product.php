@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\Table(indexes={@ORM\Index(columns={"name"}, flags={"fulltext"})})
  */
 class Product
 {

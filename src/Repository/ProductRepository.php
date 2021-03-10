@@ -26,13 +26,20 @@ class ProductRepository extends ServiceEntityRepository
     public function findByName(string $value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.name LIKE :name')
-            ->setParameter('name', "%$value%")
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->where('MATCH_AGAINST(p.name) AGAINST(:searchterm boolean)>0')
+            ->setParameter('searchterm', $value)
+            ->setMaxResults(5)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+
+//        return
+//            ->addSelect("MATCH_AGAINST (p.name, :searchterm 'IN NATURAL MODE') as score")
+////            ->add('where', 'MATCH_AGAINST(p.name, :searchterm) > 0.5')
+//            ->setParameter('searchterm', $value)
+//            ->orderBy('score', 'desc')
+//            ->setMaxResults(5)
+//            ->getQuery()
+//            ->getResult();
     }
 
 

@@ -10,12 +10,12 @@ class ProductFixtures extends Fixture
 {
     const Products = [
        1 => [
-           "name" => "Gray Men Shirts",
+           "name" => "Men Gray Shirts",
            "quantity" => 5,
            "price" => 500,
        ],
         2 => [
-            "name" => "Gray Checkered Men Shirt",
+            "name" => "Men Gray Checkered Shirt",
             "quantity" => 10,
             "price" => 700,
         ],
