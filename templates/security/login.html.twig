@@ -34,9 +34,21 @@
             </label>
         </div>
     #}
-
+    <br />
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
 </form>
+<br/><br/>
+    <div class="container">
+        <h4>Sample Users</h4>
+        <ul>
+            {% for user in users %}
+                    <li><b>Username</b>: {{ user["username"] }} <b>Password</b>: {{ user["password"] }}</li>
+
+            {% endfor %}
+        </ul>
+    </div>
+
+
 {% endblock %}
