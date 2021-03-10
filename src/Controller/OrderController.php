@@ -75,6 +75,7 @@ class OrderController extends BaseController
      */
     public function details(Order $order)
     {
+        $this->denyAccessUnlessGranted('view', $order);
         return $this->render('order.html.twig', ['order' => $order]);
     }
 }
