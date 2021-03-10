@@ -30,6 +30,12 @@ class OrderController extends BaseController
         $currentUser = $this->getUser();
 
         $items = $currentUser->getCartItems();
+
+        if($items->isEmpty())
+        {
+            $this->addFlash('warning', 'Your shopping cart is empty');
+            throw $this->createNotFoundException();
+        }
         $order = new Order();
         $order->setUser($currentUser);
         $this->getDoctrine()->getManager()->persist($order);
@@ -45,6 +51,7 @@ class OrderController extends BaseController
         }
 
         $this->getDoctrine()->getManager()->flush();
+        $this->addFlash('success', 'Your order is ready just open the door ;)');
 
         return $this->toJsonResponse($order);
     }

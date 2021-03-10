@@ -38,8 +38,11 @@ class CartController extends BaseController
     {
         $id = $request->get('id');
         $product = ($id) ? $productRepository->find($id): null;
-        if(!$product)
+        if(!$product){
+            $this->addFlash('warning', 'Product not found');
             throw $this->createNotFoundException();
+        }
+
 
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -49,7 +52,7 @@ class CartController extends BaseController
         $newQuantity = $product->getQuantity() - (($oldItem)? $oldItem->getQuantity() + 1 : 1);
         if($newQuantity < 0)
         {
-            $this->addFlash('notice', 'You have reached the maximum quantity available for ' . $product->getName());
+            $this->addFlash('warning', 'You have reached the maximum quantity available for ' . $product->getName());
             return $this->toJsonResponse($product);
         }
 
@@ -81,16 +84,22 @@ class CartController extends BaseController
     {
         $id = $request->get('id');
         $product = ($id) ? $productRepository->find($id): null;
-        if(!$product)
+
+        if(!$product){
+            $this->addFlash('warning', 'Product not found');
             throw $this->createNotFoundException();
+        }
 
         /** @var User $currentUser */
         $currentUser = $this->getUser();
 
         $oldItem = $cartItemRepository->findOneBy(["user" => $currentUser, "product" => $product]);
 
-        if(!$oldItem)
+        if(!$oldItem){
+            $this->addFlash('warning', 'Item not found');
             throw $this->createNotFoundException();
+        }
+
 
         if($oldItem->getQuantity() > 1)
         {

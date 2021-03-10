@@ -9,14 +9,7 @@
         <input class="form-control" id="search-input" autocomplete="off" placeholder="Enter Product Name" type="text">
     </div>
     <hr>
-    {% for message in app.flashes('notice') %}
-        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endfor %}
+    {% if items %}
     <table class="table">
         <thead>
             <tr>
@@ -51,6 +44,9 @@
     </table>
 
     <button class="btn btn-primary btn-lg" id="submit">Submit Order</button>
+    {% else %}
+    <p>Cart is Empty Search something like men or women</p>
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}
@@ -93,6 +89,8 @@
                     }
                 ).done(function (res) {
                     location.reload();
+                }).fail(function(xhr, status, error) {
+                    location.reload();
                 });
             });
 
@@ -104,6 +102,8 @@
                         method: 'POST'
                     }
                 ).done(function (res) {
+                    location.reload();
+                }).fail(function(xhr, status, error) {
                     location.reload();
                 });
             });
@@ -117,6 +117,8 @@
                     }
                 ).done(function (res) {
                     location.reload();
+                }).fail(function(xhr, status, error) {
+                    location.reload();
                 });
             });
 
@@ -127,7 +129,9 @@
                         method: 'POST'
                     }
                 ).done(function (res) {
-                    window.location.replace('/order/' + res.id)
+                    window.location.href = '/order/' + res.id
+                }).fail(function(xhr, status, error) {
+                    location.reload();
                 });
             });
         });
